@@ -1,7 +1,8 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Security Event Entry</title>
   <style>
     * {
@@ -10,15 +11,22 @@
 
     body {
       font-family: Arial, sans-serif;
-      margin: 30px;
-      padding: 0;
+      margin: 0;
+      padding: 20px;
       background-color: #000000;
+    }
+
+    h2 {
+      color: white;
+      text-align: center;
+      margin-bottom: 20px;
     }
 
     form {
       background: #000000;
       padding: 20px;
       max-width: 500px;
+      width: 100%;
       margin: auto;
     }
 
@@ -27,7 +35,7 @@
       padding: 15px;
       border-radius: 10px;
       margin-bottom: 20px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
     }
 
     label {
@@ -43,6 +51,7 @@
       border: 1px solid #ccc;
       border-radius: 5px;
       margin-top: 5px;
+      font-size: 16px;
     }
 
     .radio-group {
@@ -58,22 +67,37 @@
     }
 
     button {
-      padding: 10px 20px;
+      padding: 12px;
       background: #28a745;
       color: white;
       border: none;
       border-radius: 5px;
       cursor: pointer;
       width: 100%;
+      font-size: 16px;
     }
 
     button:hover {
       background: #218838;
     }
 
-    h2 {
-      color: white;
-      text-align: center;
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+
+      .form-group {
+        padding: 12px;
+      }
+
+      input[type="text"],
+      button {
+        font-size: 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
     }
   </style>
 </head>
@@ -113,17 +137,17 @@
   const allowedRadiusKm = 1.5;
 
   function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the earth in km
+    const R = 6371;
     const dLat = deg2rad(lat2 - lat1);
     const dLon = deg2rad(lon2 - lon1);
     const a =
       Math.sin(dLat / 2) * Math.sin(dLat / 2) +
       Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
+      Math.cos(deg2rad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    return R * c; // Distance in km
+    return R * c;
   }
 
   function deg2rad(deg) {
@@ -142,12 +166,11 @@
 
           const distance = getDistanceFromLatLonInKm(userLat, userLng, allowedLat, allowedLng);
 
-         if (distance > allowedRadiusKm) {
-  alert("❌ You are not in the Range of AIIMS, BBSR.");
-  logOutsideAccess(userLat, userLng);
-  window.location.href = "https://www.google.com"; // or any other URL you want to redirect to
-}
-
+          if (distance > allowedRadiusKm) {
+            alert("❌ You are not in the Range of AIIMS, BBSR.");
+            logOutsideAccess(userLat, userLng);
+            window.location.href = "https://www.google.com"; // Redirect after alert
+          }
         },
         function (error) {
           alert("⚠️ Location access denied. Location will not be included.");
@@ -178,7 +201,6 @@
 
     const form = this;
 
-    // Basic validation
     if (!form.postNo.value.trim() || !form.guardNo.value.trim() || !form.event.value) {
       alert("❗ All fields are required. Please complete the form.");
       return;
