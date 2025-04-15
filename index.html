@@ -142,11 +142,12 @@
 
           const distance = getDistanceFromLatLonInKm(userLat, userLng, allowedLat, allowedLng);
 
-          if (distance > allowedRadiusKm) {
-            alert("❌ You are not in the Range of AIIMS, BBSR.");
-            document.getElementById("securityForm").querySelectorAll("input, button").forEach(el => el.disabled = true);
-            logOutsideAccess(userLat, userLng); // Log attempt
-          }
+         if (distance > allowedRadiusKm) {
+  alert("❌ You are not in the Range of AIIMS, BBSR.");
+  logOutsideAccess(userLat, userLng);
+  window.location.href = "https://www.google.com"; // or any other URL you want to redirect to
+}
+
         },
         function (error) {
           alert("⚠️ Location access denied. Location will not be included.");
